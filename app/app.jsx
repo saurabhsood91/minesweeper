@@ -4,12 +4,20 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+
 import Container from 'app/components/Container';
-// import {Route, Router, IndexRoute, hashHistory} from 'react-router';
+
+import minesweeper from './reducers';
 
 require('style!css!sass!applicationStyles');
 
+let store = createStore(minesweeper);
+
 ReactDOM.render(
-    <Container/>,
+    <Provider store={store}>
+            <Container />
+    </Provider>,
     document.getElementById('app')
 );

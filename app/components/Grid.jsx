@@ -1,15 +1,49 @@
 import React from 'react';
 
+import {connect} from 'react-redux';
 import Square from './Square';
 import constants from '../constants';
+
+import {gridCreated} from '../actions';
+
+
+const getGridFromMineNumbers = (mineNumbers) => {
+    console.log('MINE GRID', mineNumbers);
+    let grid = [];
+    let k = 0;
+    for(let i = 0; i < constants.GRID_ROWS; i++) {
+        let row = [];
+        for(let j = 0; j < constants.GRID_COLS; j++) {
+            if(mineNumbers.indexOf(k) !== -1) {
+                // MINE = 1
+                // NO MINE = 0
+                row.push(1)
+            } else {
+                row.push(0)
+            }
+        }
+        grid.push(row);
+    }
+    return grid;
+};
+
 
 class Grid extends React.Component {
     constructor(props) {
         super(props);
 
+        // Create Mines
+        let mineNumbers = this.seedGrid();
+
         // create a list of grid items
-        this.items = this.createGrid();
-        console.log('Items', this.items);
+        this.items = this.createGrid(mineNumbers);
+
+        // Create the grid
+        let grid = getGridFromMineNumbers(mineNumbers);
+        console.log('GRID', grid);
+        //Dispatch the grid created action
+        this.props.onGridCreated(grid);
+
     }
 
     createRow(i, mineNumbers) {
@@ -29,8 +63,8 @@ class Grid extends React.Component {
         );
     }
 
-    createGrid() {
-        let mineNumbers = this.seedGrid();
+    createGrid(mineNumbers) {
+
         return (
             <div>
                 {
@@ -74,4 +108,21 @@ class Grid extends React.Component {
     }
 }
 
-export default Grid;
+const mapDispatchToProps = dispatch => {
+    return {
+        onGridCreated: grid => {
+            dispatch(gridCreated(grid));
+        }
+    };
+};
+
+const mapStateToProps = state => {
+    return state;
+};
+
+const GridContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Grid);
+
+export default GridContainer;
