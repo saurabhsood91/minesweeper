@@ -1,15 +1,17 @@
 import React from 'react';
 
 class Square extends React.Component {
-    // getInitialState() {
-    //     return {
-    //         isFlagged: false
-    //     };
-    // }
+    renderMine() {
+        let {hasMine} = this.props;
+        if(hasMine) {
+            return "MINE";
+        }
+    }
 
     render() {
         return (
             <div className="square align-left">
+                {this.renderMine()}
             </div>
         );
     }
