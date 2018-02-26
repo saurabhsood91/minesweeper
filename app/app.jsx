@@ -4,18 +4,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Container from 'app/components/Container';
 // import {Route, Router, IndexRoute, hashHistory} from 'react-router';
 
-class MainComponent extends React.Component {
-    render() {
-        return (
-            <p>Boilerplate React Code</p>
-        );
-    }
-}
-
+require('style!css!sass!applicationStyles');
 
 ReactDOM.render(
-    <MainComponent/>,
+    <Container/>,
     document.getElementById('app')
 );

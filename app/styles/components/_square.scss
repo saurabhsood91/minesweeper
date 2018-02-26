@@ -1,0 +1,24 @@
+.square {
+  height: 50px;
+  width: 50px;
+  background-color: #897e7e;
+}
+
+.align-left:first-child {
+  float: left;
+  border: 0.5px solid #7a6666;
+}
+
+.align-left {
+  float: left;
+  border-top: 0.5px;
+  border-right: 0.5px;
+  border-bottom: 0.5px;
+  border-color: #7c6565;
+}
+
+.align-left {
+  border-style: solid;
+  border-width: 0.25px;
+  float: left;
+}
