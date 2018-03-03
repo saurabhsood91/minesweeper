@@ -10,16 +10,16 @@ import {gridCreated} from '../actions';
 const getGridFromMineNumbers = (mineNumbers) => {
     console.log('MINE GRID', mineNumbers);
     let grid = [];
-    let k = 0;
     for(let i = 0; i < constants.GRID_ROWS; i++) {
         let row = [];
         for(let j = 0; j < constants.GRID_COLS; j++) {
+            let k = (i * 8) + j;
             if(mineNumbers.indexOf(k) !== -1) {
-                // MINE = 1
-                // NO MINE = 0
-                row.push(1)
+                // MINE = -2
+                // NO MINE = -1
+                row.push(-2)
             } else {
-                row.push(0)
+                row.push(-1)
             }
         }
         grid.push(row);
