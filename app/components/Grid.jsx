@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Square from './Square';
 import constants from '../constants';
 
-import {gridCreated} from '../actions';
+import {gridCreated, revealSquares} from '../actions';
 
 
 const getGridFromMineNumbers = (mineNumbers) => {
@@ -47,6 +47,16 @@ class Grid extends React.Component {
     }
 
     createRow(i, mineNumbers) {
+        const mapDispatchToProps = dispatch => {
+            return {
+                onSquaresRevealed: (i, j) => {
+                    dispatch(revealSquares(i, j));
+                }
+            }
+        };
+        const mapStateToProps = state => {
+            return state;
+        };
         return (
             <div key={i} className="main-row">
                 {

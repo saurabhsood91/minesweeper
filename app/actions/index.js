@@ -4,3 +4,11 @@ export const gridCreated = grid => {
         grid
     };
 };
+
+export const revealSquares = (i, j) => {
+    return {
+        type: 'REVEAL_SQUARES',
+        row: i,
+        column: j
+    }
+};
