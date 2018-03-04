@@ -110,7 +110,12 @@ const getSquaresToReveal = (grid, x, y) => {
         let squareY = square[1];
         if(grid[square[0]][square[1]] === 0) {
             // get adjacent squares and add them to the queue
-            queue.push(...getAdjacentSquares(grid, squareX, squareY, queue, squares));
+            let adjacent = getAdjacentSquares(grid, squareX, squareY, queue, squares);
+            adjacent.forEach((element) => {
+                if(queue.indexOf(element) === -1) {
+                    queue.push(element)
+                }
+            });
         }
     }
     return squares;
