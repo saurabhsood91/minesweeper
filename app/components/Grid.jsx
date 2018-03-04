@@ -1,10 +1,10 @@
 import React from 'react';
 
 import {connect} from 'react-redux';
-import Square from './Square';
+import SquareContainer from './Square';
 import constants from '../constants';
 
-import {gridCreated, revealSquares} from '../actions';
+import {gridCreated} from '../actions';
 
 
 const getGridFromMineNumbers = (mineNumbers) => {
@@ -46,6 +46,8 @@ class Grid extends React.Component {
 
     }
 
+
+
     createRow(i, mineNumbers) {
         const mapDispatchToProps = dispatch => {
             return {
@@ -63,9 +65,9 @@ class Grid extends React.Component {
                     [...Array(constants.GRID_COLS).keys()].map((j) => {
                         let indexSum = (i * constants.GRID_ROWS) + j;
                         if(mineNumbers.indexOf(indexSum) !== -1) {
-                            return <Square row={i} column={j} key={indexSum} hasMine={true} />
+                            return <SquareContainer row={i} column={j} key={indexSum} hasMine={true} />
                         }
-                        return <Square row={i} column={j} key={indexSum} hasMine={false} />
+                        return <SquareContainer row={i} column={j} key={indexSum} hasMine={false} />
                     })
                 }
                 <br />
@@ -109,7 +111,6 @@ class Grid extends React.Component {
 
 
     render() {
-
         return (
             <div>
                 {this.items}
@@ -127,7 +128,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-    return state;
+    return {
+        grid: state.grid.grid
+    };
 };
 
 const GridContainer = connect(

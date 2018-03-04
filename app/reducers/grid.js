@@ -124,9 +124,21 @@ const getSquaresToReveal = (grid, x, y) => {
 const grid = (state = {}, action) => {
     switch (action.type) {
         case 'GRID_CREATED':
-            return updateCounts(action.grid);
+            return {
+                ...state,
+                grid: updateCounts(action.grid)
+            }
         case 'REVEAL_SQUARES':
-            return getSquaresToReveal(state.grid, action.row, action.column);
+            let revealedSquares = state.squaresToReveal
+            return {
+                ...state,
+                squaresToReveal: getSquaresToReveal(state.grid, action.row, action.column)
+            }
+        default:
+            return {
+                grid: [],
+                squaresToReveal: []
+            }
     }
     return state;
 }
