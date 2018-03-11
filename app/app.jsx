@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 
-import Container from 'app/components/Container';
+import GameContainer from 'app/components/Game';
 
 import minesweeper from './reducers';
 
@@ -17,7 +17,7 @@ let store = createStore(minesweeper);
 
 ReactDOM.render(
     <Provider store={store}>
-            <Container />
+            <GameContainer />
     </Provider>,
     document.getElementById('app')
 );

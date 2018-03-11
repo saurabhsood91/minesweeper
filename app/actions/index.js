@@ -12,3 +12,15 @@ export const revealSquares = (i, j) => {
         column: j
     }
 };
+
+export const startGame = () => {
+    return {
+        type: 'START_GAME'
+    }
+};
+
+export const gameOver = () => {
+    return {
+        type: 'GAME_OVER'
+    }
+};

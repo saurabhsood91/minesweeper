@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {revealSquares} from '../actions';
+import {revealSquares, gameOver} from '../actions';
 
 class Square extends React.Component {
     constructor(props) {
@@ -8,33 +8,30 @@ class Square extends React.Component {
         // Makes `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
     }
-    renderMine() {
-        let {hasMine} = this.props;
-        if(hasMine) {
-            return "MINE";
+    renderSquare() {
+        let {hasMine, isRevealed, minesNearMe} = this.props;
+        if(isRevealed) {
+            if(hasMine) {
+                return "MINE";
+            } else {
+                return minesNearMe;
+            }
         }
     }
 
     handleClick() {
-        let {row, column} = this.props;
-        console.log('SQUARE clicked', row, column);
-        this.props.onSquaresRevealed(row, column);
-    }
-
-    handleReveal() {
-        let {squaresToReveal, row, column, grid} = this.props;
-        // console.log("SQUARES TO REVEAL", squaresToReveal);
-        if(squaresToReveal.indexOf([row, column]) !== -1) {
-            return grid[row][column];
+        let {row, column, onSquareClicked, hasMine, handleGameOver} = this.props;
+        if(hasMine) {
+            handleGameOver();
         }
-        return null;
+        console.log('SQUARE clicked', row, column);
+        onSquareClicked(row, column);
     }
 
     render() {
         return (
             <div className="square align-left" onClick={this.handleClick}>
-                {this.renderMine()}
-                {this.handleReveal()}
+                {this.renderSquare()}
             </div>
         );
     }
@@ -42,16 +39,16 @@ class Square extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSquaresRevealed: (i, j) => {
+        onSquareClicked: (i, j) => {
             dispatch(revealSquares(i, j));
+        },
+        handleGameOver: () => {
+            dispatch(gameOver());
         }
     }
 };
 const mapStateToProps = state => {
-    return {
-        squaresToReveal: state.grid.squaresToReveal,
-        grid: state.grid.grid
-    };
+    return {};
 };
 
 const SquareContainer = connect(
