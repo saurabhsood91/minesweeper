@@ -1,26 +1,51 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {revealSquares, gameOver} from '../actions';
+import {revealSquares, flagSquare, gameOver, unflagSquare, questionMarkSquare} from '../actions';
 
 class Square extends React.Component {
     constructor(props) {
         super(props);
         // Makes `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
+        this.handleRightClick = this.handleRightClick.bind(this);
     }
     renderSquare() {
-        let {hasMine, isRevealed, minesNearMe} = this.props;
+        let {hasMine, isRevealed, isFlagged, isQuestionMarked, minesNearMe} = this.props;
         if(isRevealed) {
             if(hasMine) {
                 return "MINE";
             } else {
                 return minesNearMe;
             }
+        } else if(isFlagged) {
+            return 'F';
+        } else if(isQuestionMarked) {
+            return '?';
         }
     }
 
-    handleClick() {
-        let {row, column, onSquareClicked, hasMine, handleGameOver} = this.props;
+    handleRightClick(e) {
+        e.preventDefault();
+        console.log('RIGHT CLICKED', this.props);
+        // Flag the square
+        let {isFlagged, isQuestionMarked, isRevealed, flagSquare, questionMarkSquare, unflagSquare, row, column} = this.props;
+        if(!isFlagged && !isQuestionMarked && !isRevealed) {
+            // Flag the square
+            flagSquare(row, column);
+        } else if(isFlagged && !isQuestionMarked) {
+            // Question Mark the square
+            questionMarkSquare(row, column);
+        } else {
+            // leave in unrevealed state
+            unflagSquare(row, column);
+        }
+    }
+
+    handleClick(e) {
+        let {row, column, onSquareClicked, hasMine, handleGameOver, isFlagged, isQuestionMarked} = this.props;
+        if(isFlagged || isQuestionMarked) {
+            return;
+        }
         if(hasMine) {
             handleGameOver();
         }
@@ -30,7 +55,7 @@ class Square extends React.Component {
 
     render() {
         return (
-            <div className="square align-left" onClick={this.handleClick}>
+            <div className="square align-left" onClick={this.handleClick} onContextMenu={this.handleRightClick}>
                 {this.renderSquare()}
             </div>
         );
@@ -44,6 +69,15 @@ const mapDispatchToProps = dispatch => {
         },
         handleGameOver: () => {
             dispatch(gameOver());
+        },
+        flagSquare: (i, j) => {
+            dispatch(flagSquare(i, j));
+        },
+        unflagSquare: (i, j) => {
+            dispatch(unflagSquare(i, j));
+        },
+        questionMarkSquare: (i, j) => {
+            dispatch(questionMarkSquare(i, j));
         }
     }
 };
