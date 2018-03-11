@@ -10,6 +10,16 @@ const game = (state = {}, action) => {
                     gameStarted: false
                 }
             }
+        case 'GAME_OVER':
+            return {
+                ...state,
+                gameState: {
+                    seconds: 0,
+                    minesCorrectlyFlagged: 0,
+                    isGameOver: true,
+                    gameStarted: false
+                }
+            }
         default:
             return {
                 ...state,

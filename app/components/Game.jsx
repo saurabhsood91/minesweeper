@@ -12,6 +12,8 @@ class Game extends React.Component {
         startGame();
     }
     render() {
+        let {isGameOver} = this.props.gameState;
+        console.log('GAME OVER', isGameOver);
         return (
             <div>
                 <GridContainer />
@@ -27,8 +29,10 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 };
-const mapStateToProps = () => {
-    return {};
+const mapStateToProps = (state) => {
+    return {
+        gameState: state.game.gameState
+    };
 };
 
 const GameContainer = connect(

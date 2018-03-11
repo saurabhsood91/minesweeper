@@ -194,6 +194,17 @@ const revealSquares = (grid, x, y) => {
     return grid;
 };
 
+const revealAllMines = (grid) => {
+    for(let i = 0; i < grid.length; i++) {
+        for(let j = 0; j < grid[i].length; j++) {
+            if(grid[i][j].hasMine) {
+                grid[i][j].isRevealed = true;
+            }
+        }
+    }
+    return grid;
+};
+
 const grid = (state = {}, action) => {
     switch (action.type) {
         case 'START_GAME':
@@ -205,6 +216,11 @@ const grid = (state = {}, action) => {
             return {
                 ...state,
                 grid: revealSquares(state.grid, action.row, action. column)
+            }
+        case 'GAME_OVER':
+            return {
+                ...state,
+                grid: revealAllMines(state.grid)
             }
         default:
             return {

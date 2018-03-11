@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {revealSquares} from '../actions';
+import {revealSquares, gameOver} from '../actions';
 
 class Square extends React.Component {
     constructor(props) {
@@ -10,17 +10,20 @@ class Square extends React.Component {
     }
     renderSquare() {
         let {hasMine, isRevealed, minesNearMe} = this.props;
-        if(hasMine) {
-            return "MINE";
-        } else {
-            if(isRevealed) {
+        if(isRevealed) {
+            if(hasMine) {
+                return "MINE";
+            } else {
                 return minesNearMe;
             }
         }
     }
 
     handleClick() {
-        let {row, column, onSquareClicked} = this.props;
+        let {row, column, onSquareClicked, hasMine, handleGameOver} = this.props;
+        if(hasMine) {
+            handleGameOver();
+        }
         console.log('SQUARE clicked', row, column);
         onSquareClicked(row, column);
     }
@@ -38,6 +41,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onSquareClicked: (i, j) => {
             dispatch(revealSquares(i, j));
+        },
+        handleGameOver: () => {
+            dispatch(gameOver());
         }
     }
 };
