@@ -224,6 +224,18 @@ const getMinesCorrectlyFlagged = (grid) => {
     return correctlyFlagged;
 }
 
+const questionMarkSquare = (grid, i, j) => {
+    grid[i][j].isQuestionMarked = true;
+    grid[i][j].isFlagged = false;
+    return grid;
+};
+
+const unFlagSquare = (grid, i, j) => {
+    grid[i][j].isFlagged = false;
+    grid[i][j].isQuestionMarked = false;
+    return grid;
+};
+
 const grid = (state = {}, action) => {
     switch (action.type) {
         case 'START_GAME':
@@ -261,6 +273,21 @@ const grid = (state = {}, action) => {
             return {
                 gameState,
                 grid: flagSquare(state.grid, action.row, action.column)
+            }
+        case 'QUESTIONMARK_SQUARE':
+            let newGrid = questionMarkSquare(state.grid, action.row, action. column);
+            let newGameState = {
+                ...state.gameState,
+                minesCorrectlyFlagged: getMinesCorrectlyFlagged(newGrid)
+            }
+            return {
+                grid: newGrid,
+                gameState: newGameState
+            }
+        case 'UNFLAG_SQUARE':
+            return {
+                ...state,
+                grid: unFlagSquare(state.grid, action.row, action.column)
             }
         default:
             return {

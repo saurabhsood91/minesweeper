@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {revealSquares, flagSquare, gameOver} from '../actions';
+import {revealSquares, flagSquare, gameOver, unflagSquare, questionMarkSquare} from '../actions';
 
 class Square extends React.Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class Square extends React.Component {
         this.handleRightClick = this.handleRightClick.bind(this);
     }
     renderSquare() {
-        let {hasMine, isRevealed, isFlagged, minesNearMe} = this.props;
+        let {hasMine, isRevealed, isFlagged, isQuestionMarked, minesNearMe} = this.props;
         if(isRevealed) {
             if(hasMine) {
                 return "MINE";
@@ -19,21 +19,33 @@ class Square extends React.Component {
             }
         } else if(isFlagged) {
             return 'F';
+        } else if(isQuestionMarked) {
+            return '?';
         }
     }
 
     handleRightClick(e) {
         e.preventDefault();
+        console.log('RIGHT CLICKED', this.props);
         // Flag the square
-        let {isFlagged, isQuestionMarked, isRevealed, flagSquare, row, column} = this.props;
+        let {isFlagged, isQuestionMarked, isRevealed, flagSquare, questionMarkSquare, unflagSquare, row, column} = this.props;
         if(!isFlagged && !isQuestionMarked && !isRevealed) {
             // Flag the square
             flagSquare(row, column);
+        } else if(isFlagged && !isQuestionMarked) {
+            // Question Mark the square
+            questionMarkSquare(row, column);
+        } else {
+            // leave in unrevealed state
+            unflagSquare(row, column);
         }
     }
 
     handleClick(e) {
-        let {row, column, onSquareClicked, hasMine, handleGameOver} = this.props;
+        let {row, column, onSquareClicked, hasMine, handleGameOver, isFlagged, isQuestionMarked} = this.props;
+        if(isFlagged || isQuestionMarked) {
+            return;
+        }
         if(hasMine) {
             handleGameOver();
         }
@@ -60,6 +72,12 @@ const mapDispatchToProps = dispatch => {
         },
         flagSquare: (i, j) => {
             dispatch(flagSquare(i, j));
+        },
+        unflagSquare: (i, j) => {
+            dispatch(unflagSquare(i, j));
+        },
+        questionMarkSquare: (i, j) => {
+            dispatch(questionMarkSquare(i, j));
         }
     }
 };

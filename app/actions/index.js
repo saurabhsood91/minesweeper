@@ -32,3 +32,19 @@ export const flagSquare = (i, j) => {
         column: j
     }
 };
+
+export const unflagSquare = (i, j) => {
+    return {
+        type: 'UNFLAG_SQUARE',
+        row: i,
+        column: j
+    }
+}
+
+export const questionMarkSquare = (i, j) => {
+    return {
+        type: 'QUESTIONMARK_SQUARE',
+        row: i,
+        column: j
+    }
+}
