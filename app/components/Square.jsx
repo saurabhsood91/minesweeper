@@ -1,25 +1,38 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {revealSquares, gameOver} from '../actions';
+import {revealSquares, flagSquare, gameOver} from '../actions';
 
 class Square extends React.Component {
     constructor(props) {
         super(props);
         // Makes `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
+        this.handleRightClick = this.handleRightClick.bind(this);
     }
     renderSquare() {
-        let {hasMine, isRevealed, minesNearMe} = this.props;
+        let {hasMine, isRevealed, isFlagged, minesNearMe} = this.props;
         if(isRevealed) {
             if(hasMine) {
                 return "MINE";
             } else {
                 return minesNearMe;
             }
+        } else if(isFlagged) {
+            return 'F';
         }
     }
 
-    handleClick() {
+    handleRightClick(e) {
+        e.preventDefault();
+        // Flag the square
+        let {isFlagged, isQuestionMarked, isRevealed, flagSquare, row, column} = this.props;
+        if(!isFlagged && !isQuestionMarked && !isRevealed) {
+            // Flag the square
+            flagSquare(row, column);
+        }
+    }
+
+    handleClick(e) {
         let {row, column, onSquareClicked, hasMine, handleGameOver} = this.props;
         if(hasMine) {
             handleGameOver();
@@ -30,7 +43,7 @@ class Square extends React.Component {
 
     render() {
         return (
-            <div className="square align-left" onClick={this.handleClick}>
+            <div className="square align-left" onClick={this.handleClick} onContextMenu={this.handleRightClick}>
                 {this.renderSquare()}
             </div>
         );
@@ -44,6 +57,9 @@ const mapDispatchToProps = dispatch => {
         },
         handleGameOver: () => {
             dispatch(gameOver());
+        },
+        flagSquare: (i, j) => {
+            dispatch(flagSquare(i, j));
         }
     }
 };

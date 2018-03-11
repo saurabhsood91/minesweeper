@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 const mapStateToProps = (state) => {
     return {
-        gameState: state.game.gameState
+        gameState: state.grid.gameState
     };
 };
 

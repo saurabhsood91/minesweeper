@@ -24,3 +24,11 @@ export const gameOver = () => {
         type: 'GAME_OVER'
     }
 };
+
+export const flagSquare = (i, j) => {
+    return {
+        type: 'FLAG_SQUARE',
+        row: i,
+        column: j
+    }
+};
