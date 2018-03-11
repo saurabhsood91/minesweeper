@@ -21,9 +21,14 @@ const game = (state = {}, action) => {
                 }
             }
         default:
+            if(!state.gameState) {
+                return {
+                    ...state,
+                    gameState: {}
+                }
+            }
             return {
-                ...state,
-                gameState: {}
+                ...state
             }
     }
 };
