@@ -55,7 +55,8 @@ const createGrid = () => {
                 minesNearMe: 0,
                 hasMine: hasMine,
                 isFlagged: false,
-                isQuestionMarked: false
+                isQuestionMarked: false,
+                isRevealed: false
             });
         }
         grid.push(row);
@@ -157,11 +158,12 @@ const getSquaresToReveal = (grid, x, y) => {
         squares.push(square);
         let squareX = square[0];
         let squareY = square[1];
-        if(grid[square[0]][square[1]] === 0) {
+        let gridElement = grid[square[0]][square[1]];
+        if(gridElement.minesNearMe === 0 && !gridElement.hasMine) {
             // get adjacent squares and add them to the queue
             let adjacent = getAdjacentSquares(grid, squareX, squareY, queue, squares);
             adjacent.forEach((element) => {
-                if(queue.indexOf(element) === -1) {
+                if(queue.indexOf(element) === -1 && squares.indexOf(element) === -1) {
                     queue.push(element)
                 }
             });
@@ -170,12 +172,39 @@ const getSquaresToReveal = (grid, x, y) => {
     return squares;
 };
 
+const willSquareWillBeRevealed = (squaresToBeRevealed, row, column) => {
+    for(let i = 0; i < squaresToBeRevealed.length; i++) {
+        if(squaresToBeRevealed[i][0] === row && squaresToBeRevealed[i][1] ===column) {
+            return true;
+        }
+    }
+    return false;
+};
+
+const revealSquares = (grid, x, y) => {
+    let squaresToReveal = getSquaresToReveal(grid, x, y);
+    console.log('SQUARES TO REVEAL', squaresToReveal);
+    for(let i = 0; i < grid.length; i++) {
+        for(let j = 0; j < grid[i].length; j++) {
+            if(willSquareWillBeRevealed(squaresToReveal, i, j)) {
+                grid[i][j].isRevealed = true;
+            }
+        }
+    }
+    return grid;
+};
+
 const grid = (state = {}, action) => {
     switch (action.type) {
         case 'START_GAME':
             return {
                 ...state,
                 grid: createGrid()
+            }
+        case 'REVEAL_SQUARES':
+            return {
+                ...state,
+                grid: revealSquares(state.grid, action.row, action. column)
             }
         default:
             return {

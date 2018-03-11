@@ -8,22 +8,27 @@ class Square extends React.Component {
         // Makes `this` work in the callback
         this.handleClick = this.handleClick.bind(this);
     }
-    renderMine() {
-        let {hasMine} = this.props;
+    renderSquare() {
+        let {hasMine, isRevealed, minesNearMe} = this.props;
         if(hasMine) {
             return "MINE";
+        } else {
+            if(isRevealed) {
+                return minesNearMe;
+            }
         }
     }
 
     handleClick() {
-        let {row, column} = this.props;
+        let {row, column, onSquareClicked} = this.props;
         console.log('SQUARE clicked', row, column);
+        onSquareClicked(row, column);
     }
 
     render() {
         return (
             <div className="square align-left" onClick={this.handleClick}>
-                {this.renderMine()}
+                {this.renderSquare()}
             </div>
         );
     }
@@ -31,13 +36,13 @@ class Square extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onSquareClicked: (i, j) => {
+            dispatch(revealSquares(i, j));
+        }
     }
 };
 const mapStateToProps = state => {
-    return {
-        squaresToReveal: state.grid.squaresToReveal,
-        grid: state.grid.grid
-    };
+    return {};
 };
 
 const SquareContainer = connect(
