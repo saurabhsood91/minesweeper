@@ -7,14 +7,63 @@ const getGridValue = (grid, i, j) => {
     if(i >= constants.GRID_ROWS || j >= constants.GRID_COLS) {
         return 0;
     }
-    if(grid[i][j] === -2) {
+    if(grid[i][j].hasMine) {
         // It is a mine
         return 1;
     }
     return 0;
 };
 
-const updateCounts = (grid) => {
+
+const seedGrid = () => {
+    let mineCount = 0;
+    let mineNumbers = [];
+    let max = (constants.GRID_COLS * constants.GRID_ROWS) - 1;
+    while(mineCount != constants.MAX_MINES) {
+        // console.log('MINE COUNT', mineCount);
+        // get a number between 0 and 63.
+        // If we already used this number, fetch another one
+        let seedNumber = Math.floor(Math.random() * Math.floor(max));
+        // console.log('SEED NUMBER', seedNumber);
+        if(mineNumbers.indexOf(seedNumber) !== -1) {
+            continue;
+        } else {
+            mineNumbers.push(seedNumber);
+            mineCount += 1;
+        }
+    }
+    console.log('MINE NUMBERS', mineNumbers);
+    return mineNumbers;
+};
+
+const createGrid = () => {
+    let grid = [];
+    let mineNumbers = seedGrid();
+    const numberOfRows = constants.GRID_COLS;
+    const numberOfColumns = constants.GRID_COLS;
+    for(let i = 0; i < numberOfRows; i++) {
+        let row = [];
+        for(let j = 0; j < numberOfColumns; j++) {
+            let currentIndex = (i * numberOfRows) + j;
+            let hasMine = false;
+            if(mineNumbers.indexOf(currentIndex) !== -1) {
+                hasMine = true;
+            }
+            row.push({
+                row: i,
+                column: j,
+                minesNearMe: 0,
+                hasMine: hasMine,
+                isFlagged: false,
+                isQuestionMarked: false
+            });
+        }
+        grid.push(row);
+    }
+    return computeGridCounts(grid);
+};
+
+const computeGridCounts = (grid) => {
     if(!grid) {
         return;
     }
@@ -25,7 +74,7 @@ const updateCounts = (grid) => {
                 continue;
             }
             let count = getGridValue(grid, i-1, j-1) + getGridValue(grid, i-1, j) + getGridValue(grid, i-1, j+1) + getGridValue(grid, i, j-1) + getGridValue(grid, i, j+1) + getGridValue(grid, i+1, j-1) + getGridValue(grid, i+1, j) + getGridValue(grid, i+1, j+1);
-            grid[i][j] = count;
+            grid[i][j].minesNearMe = count;
         }
     }
     console.log('NEW GRID', grid);
@@ -123,21 +172,15 @@ const getSquaresToReveal = (grid, x, y) => {
 
 const grid = (state = {}, action) => {
     switch (action.type) {
-        case 'GRID_CREATED':
+        case 'START_GAME':
             return {
                 ...state,
-                grid: updateCounts(action.grid)
-            }
-        case 'REVEAL_SQUARES':
-            let revealedSquares = state.squaresToReveal
-            return {
-                ...state,
-                squaresToReveal: getSquaresToReveal(state.grid, action.row, action.column)
+                grid: createGrid()
             }
         default:
             return {
+                ...state,
                 grid: [],
-                squaresToReveal: []
             }
     }
     return state;

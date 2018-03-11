@@ -18,23 +18,12 @@ class Square extends React.Component {
     handleClick() {
         let {row, column} = this.props;
         console.log('SQUARE clicked', row, column);
-        this.props.onSquaresRevealed(row, column);
-    }
-
-    handleReveal() {
-        let {squaresToReveal, row, column, grid} = this.props;
-        // console.log("SQUARES TO REVEAL", squaresToReveal);
-        if(squaresToReveal.indexOf([row, column]) !== -1) {
-            return grid[row][column];
-        }
-        return null;
     }
 
     render() {
         return (
             <div className="square align-left" onClick={this.handleClick}>
                 {this.renderMine()}
-                {this.handleReveal()}
             </div>
         );
     }
@@ -42,9 +31,6 @@ class Square extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSquaresRevealed: (i, j) => {
-            dispatch(revealSquares(i, j));
-        }
     }
 };
 const mapStateToProps = state => {
