@@ -38,7 +38,6 @@ class Square extends React.Component {
 
     handleRightClick(e) {
         e.preventDefault();
-        console.log('RIGHT CLICKED', this.props);
         // Flag the square
         let {isFlagged, isQuestionMarked, isRevealed, flagSquare, questionMarkSquare, unflagSquare, row, column} = this.props;
         if(!isFlagged && !isQuestionMarked && !isRevealed) {
@@ -61,7 +60,6 @@ class Square extends React.Component {
         if(hasMine) {
             handleGameOver();
         }
-        console.log('SQUARE clicked', row, column);
         onSquareClicked(row, column);
     }
 

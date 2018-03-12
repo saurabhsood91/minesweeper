@@ -20,11 +20,9 @@ const seedGrid = () => {
     let mineNumbers = [];
     let max = (constants.GRID_COLS * constants.GRID_ROWS) - 1;
     while(mineCount != constants.MAX_MINES) {
-        // console.log('MINE COUNT', mineCount);
         // get a number between 0 and 63.
         // If we already used this number, fetch another one
         let seedNumber = Math.floor(Math.random() * Math.floor(max));
-        // console.log('SEED NUMBER', seedNumber);
         if(mineNumbers.indexOf(seedNumber) !== -1) {
             continue;
         } else {
@@ -32,7 +30,6 @@ const seedGrid = () => {
             mineCount += 1;
         }
     }
-    console.log('MINE NUMBERS', mineNumbers);
     return mineNumbers;
 };
 
@@ -78,7 +75,6 @@ const computeGridCounts = (grid) => {
             grid[i][j].minesNearMe = count;
         }
     }
-    console.log('NEW GRID', grid);
     return grid;
 };
 
@@ -154,7 +150,6 @@ const getSquaresToReveal = (grid, x, y) => {
     while(queue.length > 0) {
         // pop a square from a queue
         let square = queue.shift();
-        // console.log('SQUARE', square);
         squares.push(square);
         let squareX = square[0];
         let squareY = square[1];
@@ -183,7 +178,6 @@ const willSquareWillBeRevealed = (squaresToBeRevealed, row, column) => {
 
 const revealSquares = (grid, x, y) => {
     let squaresToReveal = getSquaresToReveal(grid, x, y);
-    console.log('SQUARES TO REVEAL', squaresToReveal);
     for(let i = 0; i < grid.length; i++) {
         for(let j = 0; j < grid[i].length; j++) {
             if(willSquareWillBeRevealed(squaresToReveal, i, j)) {
@@ -236,8 +230,16 @@ const unFlagSquare = (grid, i, j) => {
     return grid;
 };
 
-const isGameWon = (correctlyFlaggedMines) => {
-    return correctlyFlaggedMines === constants.MAX_MINES;
+const isGameWon = (grid) => {
+    for(let i = 0; i < grid.length; i++) {
+        for(let j = 0; j < grid[i].length; j++) {
+            let square = grid[i][j];
+            if(!square.hasMine && !square.isRevealed) {
+                return false;
+            }
+        }
+    }
+    return true;
 };
 
 const grid = (state = {}, action) => {
@@ -254,9 +256,14 @@ const grid = (state = {}, action) => {
                 }
             }
         case 'REVEAL_SQUARES':
+            let gridAfterRevealing = revealSquares(state.grid, action.row, action.column);
+            let gameStateAfterReveal = {
+                ...state.gameState,
+                isGameWon: isGameWon(gridAfterRevealing)
+            }
             return {
-                ...state,
-                grid: revealSquares(state.grid, action.row, action.column)
+                grid: gridAfterRevealing,
+                gameState: gameStateAfterReveal
             }
         case 'GAME_OVER':
             let grid = revealAllMines(state.grid);
@@ -275,11 +282,8 @@ const grid = (state = {}, action) => {
             let correctlyFlaggedMines = getMinesCorrectlyFlagged(state.grid);
             let gameState = {
                 ...state.gameState,
-                isGameWon: isGameWon(correctlyFlaggedMines),
                 minesCorrectlyFlagged: correctlyFlaggedMines
             };
-            console.log('CORRECTLY FLAGGED', correctlyFlaggedMines);
-            console.log('NEW GAMESTATE', gameState);
             return {
                 gameState,
                 grid: flaggedGrid
