@@ -236,6 +236,10 @@ const unFlagSquare = (grid, i, j) => {
     return grid;
 };
 
+const isGameWon = (correctlyFlaggedMines) => {
+    return correctlyFlaggedMines === constants.MAX_MINES;
+};
+
 const grid = (state = {}, action) => {
     switch (action.type) {
         case 'START_GAME':
@@ -245,7 +249,8 @@ const grid = (state = {}, action) => {
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
-                    gameStarted: false
+                    gameStarted: false,
+                    isGameWon: false
                 }
             }
         case 'REVEAL_SQUARES':
@@ -261,18 +266,23 @@ const grid = (state = {}, action) => {
                     seconds: 0,
                     minesCorrectlyFlagged: getMinesCorrectlyFlagged(grid),
                     isGameOver: true,
-                    gameStarted: false
+                    gameStarted: false,
+                    isGameWon: false
                 }
             }
         case 'FLAG_SQUARE':
+            let flaggedGrid = flagSquare(state.grid, action.row, action.column);
+            let correctlyFlaggedMines = getMinesCorrectlyFlagged(state.grid);
             let gameState = {
                 ...state.gameState,
-                minesCorrectlyFlagged: getMinesCorrectlyFlagged(state.grid)
+                isGameWon: isGameWon(correctlyFlaggedMines),
+                minesCorrectlyFlagged: correctlyFlaggedMines
             };
+            console.log('CORRECTLY FLAGGED', correctlyFlaggedMines);
             console.log('NEW GAMESTATE', gameState);
             return {
                 gameState,
-                grid: flagSquare(state.grid, action.row, action.column)
+                grid: flaggedGrid
             }
         case 'QUESTIONMARK_SQUARE':
             let newGrid = questionMarkSquare(state.grid, action.row, action. column);

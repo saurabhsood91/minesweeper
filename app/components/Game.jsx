@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import {startGame} from '../actions';
 
+import ControlsContainer from './Controls';
 import GridContainer from './Grid';
 
 class Game extends React.Component {
@@ -12,11 +13,11 @@ class Game extends React.Component {
         startGame();
     }
     render() {
-        let {isGameOver} = this.props.gameState;
-        console.log('GAME OVER', isGameOver);
         return (
             <div>
                 <GridContainer />
+                <br /><br />
+                <ControlsContainer />
             </div>
         );
     }
