@@ -2,11 +2,15 @@
   height: 50px;
   width: 50px;
   background-color: #897e7e;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .align-left:first-child {
   float: left;
   border: 0.5px solid #7a6666;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .align-left {
@@ -15,10 +19,35 @@
   border-right: 0.5px;
   border-bottom: 0.5px;
   border-color: #7c6565;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .align-left {
   border-style: solid;
   border-width: 0.25px;
   float: left;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.fa-bomb {
+  color: #aa2525;
+  display: inline-block;
+  padding-top: 5px;
+  font-size: 2em;
+}
+
+.fa-flag {
+  color: #eaea4d;
+  display: inline-block;
+  padding-top: 8px;
+  font-size: 2em;
+}
+
+.mines-near-me {
+  color: aqua;
+  display: inline-block;
+  padding-top: 3px;
+  font-size: 2em;
 }

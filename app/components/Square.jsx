@@ -2,6 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {revealSquares, flagSquare, gameOver, unflagSquare, questionMarkSquare} from '../actions';
 
+import FontAwesome from 'react-fontawesome';
+
 class Square extends React.Component {
     constructor(props) {
         super(props);
@@ -9,16 +11,26 @@ class Square extends React.Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleRightClick = this.handleRightClick.bind(this);
     }
+
+    minesNearMe() {
+        let {minesNearMe} = this.props;
+        return (
+            <span className="mines-near-me">
+                {minesNearMe}
+            </span>
+        );
+    }
+
     renderSquare() {
         let {hasMine, isRevealed, isFlagged, isQuestionMarked, minesNearMe} = this.props;
         if(isRevealed) {
             if(hasMine) {
-                return "MINE";
+                return <FontAwesome name="bomb" />
             } else {
-                return minesNearMe;
+                return this.minesNearMe();
             }
         } else if(isFlagged) {
-            return 'F';
+            return <FontAwesome name="flag" />;
         } else if(isQuestionMarked) {
             return '?';
         }
