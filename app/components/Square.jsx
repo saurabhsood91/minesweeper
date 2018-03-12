@@ -32,7 +32,7 @@ class Square extends React.Component {
         } else if(isFlagged) {
             return <FontAwesome name="flag" />;
         } else if(isQuestionMarked) {
-            return '?';
+            return <FontAwesome name="question" />;
         }
     }
 
