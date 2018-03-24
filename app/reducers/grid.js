@@ -203,7 +203,7 @@ const flagSquare = (grid, i, j) => {
     grid[i][j].isFlagged = true;
     grid[i][j].isQuestionMarked = false;
     return grid;
-}
+};
 
 const getMinesCorrectlyFlagged = (grid) => {
     let correctlyFlagged = 0;
@@ -216,7 +216,7 @@ const getMinesCorrectlyFlagged = (grid) => {
         }
     }
     return correctlyFlagged;
-}
+};
 
 const questionMarkSquare = (grid, i, j) => {
     grid[i][j].isQuestionMarked = true;
@@ -255,7 +255,7 @@ const grid = (state = {}, action) => {
                     isGameWon: false,
                     totalMines: constants.MAX_MINES
                 }
-            }
+            };
         case 'REVEAL_SQUARES':
             let gridAfterRevealing = revealSquares(state.grid, action.row, action.column);
             let {gameStarted, seconds} = state.gameState;
@@ -265,11 +265,11 @@ const grid = (state = {}, action) => {
                 seconds: timeInSeconds,
                 isGameWon: isGameWon(gridAfterRevealing),
                 gameStarted: true
-            }
+            };
             return {
                 grid: gridAfterRevealing,
                 gameState: gameStateAfterReveal
-            }
+            };
         case 'GAME_OVER':
             let grid = revealAllMines(state.grid);
             return {
@@ -281,7 +281,7 @@ const grid = (state = {}, action) => {
                     gameStarted: true,
                     isGameWon: false
                 }
-            }
+            };
         case 'FLAG_SQUARE':
             let flaggedGrid = flagSquare(state.grid, action.row, action.column);
             let correctlyFlaggedMines = getMinesCorrectlyFlagged(state.grid);
@@ -292,22 +292,22 @@ const grid = (state = {}, action) => {
             return {
                 gameState,
                 grid: flaggedGrid
-            }
+            };
         case 'QUESTIONMARK_SQUARE':
             let newGrid = questionMarkSquare(state.grid, action.row, action. column);
             let newGameState = {
                 ...state.gameState,
                 minesCorrectlyFlagged: getMinesCorrectlyFlagged(newGrid)
-            }
+            };
             return {
                 grid: newGrid,
                 gameState: newGameState
-            }
+            };
         case 'UNFLAG_SQUARE':
             return {
                 ...state,
                 grid: unFlagSquare(state.grid, action.row, action.column)
-            }
+            };
         case 'INCREMENT_TIME':
             return {
                 ...state,
@@ -315,7 +315,19 @@ const grid = (state = {}, action) => {
                     ...state.gameState,
                     seconds: action.seconds
                 }
-            }
+            };
+        case 'RESTART_GAME':
+            return {
+                grid: createGrid(),
+                gameState: {
+                    seconds: 0,
+                    minesCorrectlyFlagged: 0,
+                    isGameOver: false,
+                    gameStarted: false,
+                    isGameWon: false,
+                    totalMines: constants.MAX_MINES
+                }
+            };
         default:
             return {
                 gameState: {},

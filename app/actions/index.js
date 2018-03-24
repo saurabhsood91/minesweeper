@@ -55,3 +55,9 @@ export const incrementTime = (seconds) => {
         seconds: seconds
     }
 };
+
+export const restartGame = () => {
+    return {
+        type: 'RESTART_GAME'
+    }
+};
