@@ -251,16 +251,20 @@ const grid = (state = {}, action) => {
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
-                    gameStarted: true,
+                    gameStarted: false,
                     isGameWon: false,
                     totalMines: constants.MAX_MINES
                 }
             }
         case 'REVEAL_SQUARES':
             let gridAfterRevealing = revealSquares(state.grid, action.row, action.column);
+            let {gameStarted, seconds} = state.gameState;
+            let timeInSeconds = !gameStarted ? 0:seconds;
             let gameStateAfterReveal = {
                 ...state.gameState,
-                isGameWon: isGameWon(gridAfterRevealing)
+                seconds: timeInSeconds,
+                isGameWon: isGameWon(gridAfterRevealing),
+                gameStarted: true
             }
             return {
                 grid: gridAfterRevealing,
