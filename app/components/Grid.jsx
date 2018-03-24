@@ -17,7 +17,7 @@ class Grid extends React.Component {
         return (
             <div key={i} className="main-row">
                 {
-                    [...Array(constants.GRID_COLS).keys()].map((j) => {
+                    [...Array(grid[i].length).keys()].map((j) => {
                         let key = (i * constants.GRID_ROWS) + j;
                         let gridProps = grid[i][j];
                         return <SquareContainer key={key} {...gridProps} />
@@ -29,10 +29,11 @@ class Grid extends React.Component {
     }
 
     showGrid() {
+        let {grid} = this.props.grid;
         return (
             <div>
                 {
-                    [...Array(constants.GRID_ROWS).keys()].map((i) => {
+                    [...Array(grid.length).keys()].map((i) => {
                         return this.createRow(i)
                     })
                 }

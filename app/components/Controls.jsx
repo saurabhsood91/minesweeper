@@ -2,6 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import TimerContainer from './Timer';
+import GameButtonsContainer from './GameButtons';
+import GridControlsContainer from './GridControls'
 
 class Controls extends React.Component {
     renderStatus() {
@@ -29,12 +31,26 @@ class Controls extends React.Component {
         );
     }
 
+    renderGameButtons() {
+        return (
+            <GameButtonsContainer />
+        );
+    }
+
+    renderGridControls() {
+        return (
+            <GridControlsContainer />
+        );
+    }
+
     render() {
         return (
           <div>
               {this.renderStatus()}
               {this.renderTimer()}
               {this.renderNumberOfMines()}
+              {this.renderGameButtons()}
+              {this.renderGridControls()}
           </div>
         );
     }

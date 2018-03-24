@@ -55,3 +55,18 @@ export const incrementTime = (seconds) => {
         seconds: seconds
     }
 };
+
+export const restartGame = () => {
+    return {
+        type: 'RESTART_GAME'
+    }
+};
+
+export const reinitializeGrid = (rows, cols, mines) => {
+    return {
+        type: 'REINITIALIZE_GRID',
+        rows: rows,
+        cols: cols,
+        mines: mines
+    }
+};

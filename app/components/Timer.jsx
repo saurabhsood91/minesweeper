@@ -7,7 +7,6 @@ import {incrementTime} from '../actions';
 class Timer extends React.Component {
     constructor(props) {
         super(props);
-        this.startTimer();
     }
     renderFormattedTime() {
         let {seconds} = this.props.gameState;
@@ -36,7 +35,6 @@ class Timer extends React.Component {
     }
 
     startTimer() {
-        // TODO
         this.interval = setInterval(this.increment.bind(this), 1000);
     }
 
@@ -48,15 +46,17 @@ class Timer extends React.Component {
     }
 
     stopTimer() {
-        // TODO
         clearInterval(this.interval);
+        this.interval = null;
     }
 
     render() {
-        let {isGameOver, isGameWon} = this.props.gameState;
+        let {isGameOver, isGameWon, gameStarted} = this.props.gameState;
         if(isGameOver || isGameWon) {
             // need to stop the timer
             this.stopTimer();
+        } else if(!this.interval && gameStarted) {
+            this.startTimer();
         }
         return (
             <div>
