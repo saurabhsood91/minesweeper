@@ -1,16 +1,31 @@
 import React from 'react';
-
 import {connect} from 'react-redux';
 
+import TimerContainer from './Timer';
+
 class Controls extends React.Component {
-    render() {
+    renderStatus() {
         let {isGameOver, isGameWon} = this.props.gameState;
         if(isGameOver) {
-            return 'STATUS: YOU LOST!!!';
+            return <p>STATUS: YOU LOST!!!</p>;
         } else if(isGameWon) {
-            return 'STATUS: YOU WON!!!';
+            return <p>STATUS: YOU WON!!!</p>;
         }
-        return 'STATUS:'
+        return null;
+    }
+
+    renderTimer() {
+        return (
+            <TimerContainer startTimer={true} />
+        );
+    }
+    render() {
+        return (
+          <div>
+              {this.renderStatus()}
+              {this.renderTimer()}
+          </div>
+        );
     }
 }
 
