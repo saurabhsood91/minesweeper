@@ -251,7 +251,7 @@ const grid = (state = {}, action) => {
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
-                    gameStarted: false,
+                    gameStarted: true,
                     isGameWon: false
                 }
             }
@@ -270,10 +270,10 @@ const grid = (state = {}, action) => {
             return {
                 grid,
                 gameState: {
-                    seconds: 0,
+                    ...state.gameState,
                     minesCorrectlyFlagged: getMinesCorrectlyFlagged(grid),
                     isGameOver: true,
-                    gameStarted: false,
+                    gameStarted: true,
                     isGameWon: false
                 }
             }
@@ -302,6 +302,14 @@ const grid = (state = {}, action) => {
             return {
                 ...state,
                 grid: unFlagSquare(state.grid, action.row, action.column)
+            }
+        case 'INCREMENT_TIME':
+            return {
+                ...state,
+                gameState: {
+                    ...state.gameState,
+                    seconds: action.seconds
+                }
             }
         default:
             return {

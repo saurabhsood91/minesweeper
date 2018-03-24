@@ -39,7 +39,7 @@ export const unflagSquare = (i, j) => {
         row: i,
         column: j
     }
-}
+};
 
 export const questionMarkSquare = (i, j) => {
     return {
@@ -47,4 +47,11 @@ export const questionMarkSquare = (i, j) => {
         row: i,
         column: j
     }
-}
+};
+
+export const incrementTime = (seconds) => {
+    return {
+        type: 'INCREMENT_TIME',
+        seconds: seconds
+    }
+};
