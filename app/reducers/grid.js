@@ -4,7 +4,7 @@ const getGridValue = (grid, i, j) => {
     if(i < 0 || j < 0) {
         return 0;
     }
-    if(i >= constants.GRID_ROWS || j >= constants.GRID_COLS) {
+    if(i >= grid.length || j >= grid[i].length) {
         return 0;
     }
     if(grid[i][j].hasMine) {
@@ -15,11 +15,12 @@ const getGridValue = (grid, i, j) => {
 };
 
 
-const seedGrid = () => {
+const seedGrid = (numRows, numCols, numMines) => {
     let mineCount = 0;
     let mineNumbers = [];
-    let max = (constants.GRID_COLS * constants.GRID_ROWS) - 1;
-    while(mineCount != constants.MAX_MINES) {
+
+    let max = (numCols * numRows) - 1;
+    while(mineCount != numMines) {
         // get a number between 0 and 63.
         // If we already used this number, fetch another one
         let seedNumber = Math.floor(Math.random() * Math.floor(max));
@@ -33,15 +34,13 @@ const seedGrid = () => {
     return mineNumbers;
 };
 
-const createGrid = () => {
+const createGrid = (numRows = constants.GRID_ROWS, numCols = constants.GRID_COLS, numMines = constants.MAX_MINES) => {
     let grid = [];
-    let mineNumbers = seedGrid();
-    const numberOfRows = constants.GRID_COLS;
-    const numberOfColumns = constants.GRID_COLS;
-    for(let i = 0; i < numberOfRows; i++) {
+    let mineNumbers = seedGrid(numRows, numCols, numMines);
+    for(let i = 0; i < numRows; i++) {
         let row = [];
-        for(let j = 0; j < numberOfColumns; j++) {
-            let currentIndex = (i * numberOfRows) + j;
+        for(let j = 0; j < numCols; j++) {
+            let currentIndex = (i * numRows) + j;
             let hasMine = false;
             if(mineNumbers.indexOf(currentIndex) !== -1) {
                 hasMine = true;
@@ -65,8 +64,8 @@ const computeGridCounts = (grid) => {
     if(!grid) {
         return;
     }
-    for(let i = 0; i < constants.GRID_ROWS; i++) {
-        for(let j = 0; j < constants.GRID_COLS; j++) {
+    for(let i = 0; i < grid.length; i++) {
+        for(let j = 0; j < grid[i].length; j++) {
             if(grid[i][j] === -2) {
                 // it is a mine. do not compute
                 continue;
@@ -253,7 +252,9 @@ const grid = (state = {}, action) => {
                     isGameOver: false,
                     gameStarted: false,
                     isGameWon: false,
-                    totalMines: constants.MAX_MINES
+                    totalMines: constants.MAX_MINES,
+                    rows: constants.GRID_ROWS,
+                    cols: constants.GRID_COLS
                 }
             };
         case 'REVEAL_SQUARES':
@@ -317,15 +318,30 @@ const grid = (state = {}, action) => {
                 }
             };
         case 'RESTART_GAME':
+            let {rows, cols, mines} = state.gameState;
             return {
-                grid: createGrid(),
+                grid: createGrid(rows, cols, mines),
+                gameState: {
+                    ...state.gameState,
+                    seconds: 0,
+                    minesCorrectlyFlagged: 0,
+                    isGameOver: false,
+                    gameStarted: false,
+                    isGameWon: false,
+                }
+            };
+        case 'REINITIALIZE_GRID':
+            return {
+                grid: createGrid(action.rows, action.cols, action.mines),
                 gameState: {
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
                     gameStarted: false,
                     isGameWon: false,
-                    totalMines: constants.MAX_MINES
+                    totalMines: action.mines,
+                    rows: action.rows,
+                    cols: action.cols
                 }
             };
         default:
