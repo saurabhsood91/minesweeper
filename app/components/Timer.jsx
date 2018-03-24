@@ -45,8 +45,8 @@ class Timer extends React.Component {
     }
 
     render() {
-        let {isGameOver} = this.props.gameState;
-        if(isGameOver) {
+        let {isGameOver, isGameWon} = this.props.gameState;
+        if(isGameOver || isGameWon) {
             // need to stop the timer
             this.stopTimer();
         }
