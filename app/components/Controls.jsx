@@ -19,11 +19,22 @@ class Controls extends React.Component {
             <TimerContainer startTimer={true} />
         );
     }
+
+    renderNumberOfMines() {
+        let {totalMines} = this.props.gameState;
+        return (
+            <p>
+                Total Mines: {totalMines}
+            </p>
+        );
+    }
+
     render() {
         return (
           <div>
               {this.renderStatus()}
               {this.renderTimer()}
+              {this.renderNumberOfMines()}
           </div>
         );
     }
