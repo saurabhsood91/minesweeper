@@ -252,7 +252,8 @@ const grid = (state = {}, action) => {
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
                     gameStarted: true,
-                    isGameWon: false
+                    isGameWon: false,
+                    totalMines: constants.MAX_MINES
                 }
             }
         case 'REVEAL_SQUARES':
