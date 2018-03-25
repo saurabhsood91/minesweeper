@@ -59,9 +59,9 @@ class Timer extends React.Component {
             this.startTimer();
         }
         return (
-            <div>
+            <p className="timer">
                 {this.renderTime()}
-            </div>
+            </p>
         );
     }
 }

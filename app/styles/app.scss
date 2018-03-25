@@ -1,3 +1,10 @@
 @import "components/grid";
 @import "components/square";
 @import "components/header";
+@import "components/status";
+@import "components/controls";
+@import "components/timer";
+
+.app {
+  margin-bottom: 20px;
+}

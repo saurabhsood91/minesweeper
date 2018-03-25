@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Row, Col} from 'react-bootstrap';
 
 import {reinitializeGrid} from '../actions';
 
@@ -17,35 +18,48 @@ class GridControls extends React.Component {
 
     renderRowControl() {
         return (
-            <div>
-                <p><b>Number of Rows</b></p>
-                <input type="number" min="8" defaultValue="8" ref={(rows) => this.rows = rows} />
-            </div>
+            <Row className="grid-rows-control">
+                <Col md={4}>
+                    <b>Rows: </b>
+                </Col>
+                <Col md={4}>
+                    <input type="number" min="8" defaultValue="8" ref={(rows) => this.rows = rows} />
+                </Col>
+            </Row>
         );
     }
 
     renderColumnControl() {
         return (
-            <div>
-                <p><b>Number of Columns</b></p>
-                <input type="number" min="8" defaultValue="8" ref={(cols) => this.cols = cols} />
-            </div>
+            <Row className="grid-cols-control">
+                <Col md={4}>
+                    <b>Columns: </b>
+                </Col>
+                <Col md={4}>
+                    <input type="number" min="8" defaultValue="8" ref={(cols) => this.cols = cols} />
+                </Col>
+            </Row>
         );
     }
 
     renderNumberOfMinesControl() {
         return (
-            <div>
-                <p><b>Number of Mines</b></p>
-                <input type="number" min="10" defaultValue="10" ref={(mines) => this.mines = mines} />
-            </div>
+            <Row className="grid-mines-control">
+                <Col md={4}>
+                    <b>Mines: </b>
+                </Col>
+                <Col md={4}>
+                    <input type="number" min="10" defaultValue="10" ref={(mines) => this.mines = mines} />
+                </Col>
+
+            </Row>
         );
     }
 
     renderCreateGridButton() {
         return (
             <div>
-                <button onClick={this.recreateGrid}>
+                <button className="btn btn-danger" onClick={this.recreateGrid}>
                     Recreate Grid
                 </button>
             </div>
@@ -58,6 +72,7 @@ class GridControls extends React.Component {
                 {this.renderRowControl()}
                 {this.renderColumnControl()}
                 {this.renderNumberOfMinesControl()}
+                <br />
                 {this.renderCreateGridButton()}
             </div>
         );

@@ -4,7 +4,7 @@ import {Grid} from 'react-bootstrap';
 
 import {startGame} from '../actions';
 
-import ControlsContainer from './Controls';
+import Controls from './Controls';
 import GridContainer from './Grid';
 import Header from './Header';
 
@@ -16,11 +16,11 @@ class Game extends React.Component {
     }
     render() {
         return (
-            <Grid>
+            <Grid className="app">
                 <Header />
                 <GridContainer />
                 <br /><br />
-                <ControlsContainer />
+                <Controls />
             </Grid>
         );
     }

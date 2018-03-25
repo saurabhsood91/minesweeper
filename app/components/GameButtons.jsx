@@ -10,14 +10,13 @@ class GameButtons extends React.Component {
     }
 
     handleRestart() {
-        console.log('Woot! Restart');
         let {restartGame} = this.props;
         restartGame();
     }
 
     renderRestartGameButton() {
         return (
-            <button onClick={this.handleRestart}>
+            <button className="btn btn-primary" onClick={this.handleRestart}>
                 Restart Game
             </button>
         );

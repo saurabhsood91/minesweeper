@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import SquareContainer from './Square';
 import constants from '../constants';
 
-import {gridCreated} from '../actions';
-
 
 class Grid extends React.Component {
     constructor(props) {
