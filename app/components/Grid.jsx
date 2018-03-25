@@ -1,10 +1,9 @@
 import React from 'react';
+import {Row, Col} from 'react-bootstrap';
 
 import {connect} from 'react-redux';
 import SquareContainer from './Square';
 import constants from '../constants';
-
-import {gridCreated} from '../actions';
 
 
 class Grid extends React.Component {
@@ -44,9 +43,11 @@ class Grid extends React.Component {
     render() {
         let gridItems = this.showGrid();
         return (
-            <div>
-                {gridItems}
-            </div>
+            <Row className="main-grid">
+                <Col mdOffset={4}>
+                    {gridItems}
+                </Col>
+            </Row>
         );
     }
 }

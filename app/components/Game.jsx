@@ -1,10 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Grid} from 'react-bootstrap';
 
 import {startGame} from '../actions';
 
-import ControlsContainer from './Controls';
+import Controls from './Controls';
 import GridContainer from './Grid';
+import Header from './Header';
 
 class Game extends React.Component {
     constructor(props) {
@@ -14,11 +16,12 @@ class Game extends React.Component {
     }
     render() {
         return (
-            <div>
+            <Grid className="app">
+                <Header />
                 <GridContainer />
                 <br /><br />
-                <ControlsContainer />
-            </div>
+                <Controls />
+            </Grid>
         );
     }
 }
