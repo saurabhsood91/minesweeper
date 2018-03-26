@@ -31,6 +31,7 @@ const seedGrid = (numRows, numCols, numMines) => {
             mineCount += 1;
         }
     }
+    console.log('MINE NUMBERS', mineNumbers);
     return mineNumbers;
 };
 
@@ -40,9 +41,10 @@ const createGrid = (numRows = constants.GRID_ROWS, numCols = constants.GRID_COLS
     for(let i = 0; i < numRows; i++) {
         let row = [];
         for(let j = 0; j < numCols; j++) {
-            let currentIndex = (i * numRows) + j;
+            let currentIndex = (i * numCols) + j;
             let hasMine = false;
             if(mineNumbers.indexOf(currentIndex) !== -1) {
+                console.log('INDEX', currentIndex);
                 hasMine = true;
             }
             row.push({
