@@ -15,14 +15,43 @@ const getGridValue = (grid, i, j) => {
 };
 
 
+const seedNonMines = (numRows, numCols, numMines) => {
+    let tileCount = 0;
+    let max = (numCols * numRows) - 1;
+    let tilesToGenerate = (numRows * numCols) - numMines;
+    let nonMineNumbers = [];
+
+    while(tileCount !== tilesToGenerate) {
+        let seedNumber = Math.floor(Math.random() * Math.floor(max));
+        if(nonMineNumbers.indexOf(seedNumber) !== -1) {
+            continue;
+        } else {
+            nonMineNumbers.push(seedNumber);
+            tileCount += 1;
+        }
+    }
+
+    // Now that we have non mine numbers
+    // Find the mine numbers
+    let mineNumbers = [];
+    for(let i = 0; i <= max; i++) {
+        if(nonMineNumbers.indexOf(i) === -1) {
+            mineNumbers.push(i);
+        }
+    }
+    return mineNumbers;
+};
+
+
 const seedGrid = (numRows, numCols, numMines) => {
     let mineCount = 0;
     let mineNumbers = [];
 
     let max = (numCols * numRows) - 1;
-    while(mineCount != numMines) {
-        // get a number between 0 and 63.
-        // If we already used this number, fetch another one
+    if(numMines > max / 2) {
+        return seedNonMines(numRows, numCols, numMines);
+    }
+    while(mineCount !== numMines) {
         let seedNumber = Math.floor(Math.random() * Math.floor(max));
         if(mineNumbers.indexOf(seedNumber) !== -1) {
             continue;
@@ -31,7 +60,6 @@ const seedGrid = (numRows, numCols, numMines) => {
             mineCount += 1;
         }
     }
-    console.log('MINE NUMBERS', mineNumbers);
     return mineNumbers;
 };
 
@@ -44,7 +72,6 @@ const createGrid = (numRows = constants.GRID_ROWS, numCols = constants.GRID_COLS
             let currentIndex = (i * numCols) + j;
             let hasMine = false;
             if(mineNumbers.indexOf(currentIndex) !== -1) {
-                console.log('INDEX', currentIndex);
                 hasMine = true;
             }
             row.push({
