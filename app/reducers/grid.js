@@ -21,7 +21,7 @@ const seedNonMines = (numRows, numCols, numMines) => {
     let tilesToGenerate = Math.max(((numRows * numCols) - numMines), 0);
     let nonMineNumbers = [];
 
-    while(tileCount !== tilesToGenerate) {
+    while(tileCount != tilesToGenerate) {
         let seedNumber = Math.floor(Math.random() * Math.floor(max));
         if(nonMineNumbers.indexOf(seedNumber) !== -1) {
             continue;
@@ -51,7 +51,7 @@ const seedGrid = (numRows, numCols, numMines) => {
     if(numMines > max / 2) {
         return seedNonMines(numRows, numCols, numMines);
     }
-    while(mineCount !== numMines) {
+    while(mineCount != numMines) {
         let seedNumber = Math.floor(Math.random() * Math.floor(max));
         if(mineNumbers.indexOf(seedNumber) !== -1) {
             continue;
