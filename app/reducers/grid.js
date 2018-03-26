@@ -18,7 +18,7 @@ const getGridValue = (grid, i, j) => {
 const seedNonMines = (numRows, numCols, numMines) => {
     let tileCount = 0;
     let max = (numCols * numRows) - 1;
-    let tilesToGenerate = (numRows * numCols) - numMines;
+    let tilesToGenerate = Math.max(((numRows * numCols) - numMines), 0);
     let nonMineNumbers = [];
 
     while(tileCount !== tilesToGenerate) {
