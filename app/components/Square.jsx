@@ -63,7 +63,19 @@ class Square extends React.Component {
         onSquareClicked(row, column);
     }
 
+    gameOver() {
+        return (
+            <div className="square align-left">
+                {this.renderSquare()}
+            </div>
+        );
+    }
+
     render() {
+        let {isGameOver, isGameWon} = this.props.gameState;
+        if(isGameOver || isGameWon) {
+            return this.gameOver();
+        }
         return (
             <div className="square align-left" onClick={this.handleClick} onContextMenu={this.handleRightClick}>
                 {this.renderSquare()}
@@ -92,7 +104,9 @@ const mapDispatchToProps = dispatch => {
     }
 };
 const mapStateToProps = state => {
-    return {};
+    return {
+        gameState: state.grid.gameState
+    };
 };
 
 const SquareContainer = connect(
