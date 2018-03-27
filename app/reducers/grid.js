@@ -360,6 +360,7 @@ const grid = (state = {}, action) => {
                 }
             };
         case 'REINITIALIZE_GRID':
+            let numberOfMines = Math.min((action.rows * action.cols), action.mines);
             return {
                 grid: createGrid(action.rows, action.cols, action.mines),
                 gameState: {
@@ -368,7 +369,7 @@ const grid = (state = {}, action) => {
                     isGameOver: false,
                     gameStarted: false,
                     isGameWon: false,
-                    totalMines: action.mines,
+                    totalMines: numberOfMines,
                     rows: action.rows,
                     cols: action.cols
                 }
