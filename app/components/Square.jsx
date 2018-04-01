@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {revealSquares, flagSquare, gameOver, unflagSquare, questionMarkSquare} from '../actions';
+import {revealSquares, flagSquare, gameOver, unflagSquare, questionMarkSquare, burstReveal} from '../actions';
 
 import FontAwesome from 'react-fontawesome';
 
@@ -53,14 +53,13 @@ class Square extends React.Component {
     }
 
     handleClick(e) {
-        let {row, column, onSquareClicked, hasMine, handleGameOver, isFlagged, isQuestionMarked} = this.props;
-        if(isFlagged || isQuestionMarked) {
-            return;
-        }
-        if(hasMine) {
+        let {row, column, onSquareClicked, hasMine, handleGameOver, isFlagged, isQuestionMarked, burstReveal} = this.props;
+        if(isQuestionMarked) {
+            burstReveal(row, column);
+            onSquareClicked(row, column);
+        } else if(hasMine) {
             handleGameOver();
         }
-        onSquareClicked(row, column);
     }
 
     gameOver() {
@@ -100,6 +99,9 @@ const mapDispatchToProps = dispatch => {
         },
         questionMarkSquare: (i, j) => {
             dispatch(questionMarkSquare(i, j));
+        },
+        burstReveal: (i, j) => {
+            dispatch(burstReveal(i, j));
         }
     }
 };

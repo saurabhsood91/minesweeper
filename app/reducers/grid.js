@@ -270,6 +270,27 @@ const isGameWon = (grid) => {
     return true;
 };
 
+const handleBurstReveal = (grid, i, j) => {
+    let neighbours = getAdjacentSquares(grid, i, j, [], []);
+    for(let k = 0; k < neighbours.length; k++) {
+        let p = neighbours[k][0];
+        let q = neighbours[k][1];
+        grid[p][q].isRevealed = true;
+    }
+    return grid;
+};
+
+const isGameLost = (grid) => {
+    for(let i = 0; i < grid.length; i++) {
+        for(let j = 0; j < grid[i].length; j++) {
+            if(grid[i][j].isRevealed && grid[i][j].hasMine) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
 const grid = (state = {}, action) => {
     switch (action.type) {
         case 'START_GAME':
@@ -372,6 +393,22 @@ const grid = (state = {}, action) => {
                     totalMines: numberOfMines,
                     rows: action.rows,
                     cols: action.cols
+                }
+            };
+        case 'BURST_REVEAL':
+            let burstRevealGrid = handleBurstReveal(state.grid, action.row, action.col);
+            let mineBurst = isGameLost(burstRevealGrid);
+            let finalGridToBeShown = null;
+            if(mineBurst) {
+                finalGridToBeShown = revealAllMines(burstRevealGrid);
+            } else {
+                finalGridToBeShown = burstRevealGrid;
+            }
+            return {
+                grid: finalGridToBeShown,
+                gameState: {
+                    ...state.gameState,
+                    isGameOver: mineBurst
                 }
             };
         default:

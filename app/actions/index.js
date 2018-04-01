@@ -70,3 +70,11 @@ export const reinitializeGrid = (rows, cols, mines) => {
         mines: mines
     }
 };
+
+export const burstReveal = (i, j) => {
+    return {
+        type: 'BURST_REVEAL',
+        row: i,
+        col: j
+    }
+};
