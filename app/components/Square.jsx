@@ -59,6 +59,10 @@ class Square extends React.Component {
             onSquareClicked(row, column);
         } else if(hasMine) {
             handleGameOver();
+        } else {
+            if(!isFlagged) {
+                onSquareClicked(row, column);
+            }
         }
     }
 
