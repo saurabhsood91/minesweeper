@@ -78,3 +78,24 @@ export const burstReveal = (i, j) => {
         col: j
     }
 };
+
+export const loadScoresSuccess = (scores) => {
+    return {
+        type: 'LOAD_SCORES_SUCCESS',
+        scores
+    };
+};
+
+export const getTopScores = () => {
+    return (dispatch) => {
+        return fetch('http://localhost:4567/api/get/topten').then(
+            (response) => {
+                return response.json();
+            }
+        )
+            .then((data) => {
+                console.log('FINAL DATA', data);
+                dispatch(loadScoresSuccess(data.scores));
+            });
+    };
+};

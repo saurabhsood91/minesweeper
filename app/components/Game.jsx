@@ -7,6 +7,7 @@ import {startGame} from '../actions';
 import Controls from './Controls';
 import GridContainer from './Grid';
 import Header from './Header';
+import LeaderboardContainer from './Leaderboard';
 
 class Game extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class Game extends React.Component {
                 <GridContainer />
                 <br /><br />
                 <Controls />
+                <LeaderboardContainer/>
             </Grid>
         );
     }
