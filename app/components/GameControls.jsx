@@ -1,6 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {Row, Col} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
 
 import GameButtonsContainer from './GameButtons';
 import GridControlsContainer from './GridControls';

@@ -1,22 +1,33 @@
 import React from 'react';
 import {connect} from 'react-redux';
-
+import Score from './Score';
 
 class Leaderboard extends React.Component {
     render() {
         let {scores} = this.props.scores;
-        console.log('SCORES LB', scores);
+
         let scoreList = scores.map((score) => {
             return (
-                <p>
-                    {score.ID}
-                </p>
+                <Score score={score} key={score.ID}></Score>
             );
         });
+
         return (
             <div>
                 <h4>Leaderboard</h4>
-                {scoreList}
+                <table className="leaderboard">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Time</th>
+                            <th>Grid</th>
+                            <th># Mines</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {scoreList}
+                    </tbody>
+                </table>
             </div>
         );
     }

@@ -2,35 +2,20 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {incrementTime} from '../actions';
+import {getFormattedTime} from '../utils/time';
 
 
 class Timer extends React.Component {
     constructor(props) {
         super(props);
     }
-    renderFormattedTime() {
-        let {seconds} = this.props.gameState;
-
-        let timeInSeconds = seconds % 60;
-        let minutes = Math.floor(seconds / 60);
-
-        if(timeInSeconds < 10) {
-            timeInSeconds = '0' + timeInSeconds;
-        }
-
-        if(minutes < 10) {
-            minutes = '0' + minutes;
-        }
-
-        return `${minutes}:${timeInSeconds}`;
-    }
 
     renderTime() {
-        let {gameStarted} = this.props.gameState;
+        let {gameStarted, seconds} = this.props.gameState;
         if(!gameStarted) {
             return '00:00';
         } else {
-            return this.renderFormattedTime();
+            return getFormattedTime(seconds);
         }
     }
 

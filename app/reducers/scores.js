@@ -3,12 +3,12 @@ const scores = (state = {}, action) => {
         case 'LOAD_SCORES_SUCCESS':
             return {
                 scores: action.scores
-            }
+            };
         default:
             return {
                 ...state,
                 scores: []
-            }
+            };
     }
 };
 
