@@ -297,6 +297,7 @@ const grid = (state = {}, action) => {
             return {
                 grid: createGrid(),
                 gameState: {
+                    ...gameState,
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
@@ -378,6 +379,7 @@ const grid = (state = {}, action) => {
                     isGameOver: false,
                     gameStarted: false,
                     isGameWon: false,
+                    playerName: action.playerName
                 }
             };
         case 'REINITIALIZE_GRID':
@@ -385,6 +387,7 @@ const grid = (state = {}, action) => {
             return {
                 grid: createGrid(action.rows, action.cols, action.mines),
                 gameState: {
+                    ...state.gameState,
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
@@ -413,18 +416,22 @@ const grid = (state = {}, action) => {
             };
         default:
             return {
-                grid: createGrid(),
-                gameState: {
-                    seconds: 0,
-                    minesCorrectlyFlagged: 0,
-                    isGameOver: false,
-                    gameStarted: false,
-                    isGameWon: false,
-                    totalMines: constants.MAX_MINES,
-                    rows: constants.GRID_ROWS,
-                    cols: constants.GRID_COLS
-                }
+                grid: [],
+                gameState: {}
             };
+            // return {
+            //     grid: createGrid(),
+            //     gameState: {
+            //         seconds: 0,
+            //         minesCorrectlyFlagged: 0,
+            //         isGameOver: false,
+            //         gameStarted: false,
+            //         isGameWon: false,
+            //         totalMines: constants.MAX_MINES,
+            //         rows: constants.GRID_ROWS,
+            //         cols: constants.GRID_COLS
+            //     }
+            // };
     }
     return state;
 }

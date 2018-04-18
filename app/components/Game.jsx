@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Grid} from 'react-bootstrap';
 
-import {startGame} from '../actions';
+import {startGame, submitScore} from '../actions';
 
 import Controls from './Controls';
 import GridContainer from './Grid';
@@ -16,6 +16,11 @@ class Game extends React.Component {
         startGame();
     }
     render() {
+        let {rows, cols, mines, playerName, seconds, isGameWon} = this.props.gameState;
+        let {submitScore} = this.props;
+        if(isGameWon) {
+            submitScore(rows, cols, mines, playerName, seconds);
+        }
         return (
             <Grid className="app">
                 <Header />
@@ -32,6 +37,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         startGame: () => {
             dispatch(startGame())
+        },
+        submitScore: (rows, cols, mines, name, seconds) => {
+            dispatch(submitScore(rows, cols, mines, name, seconds));
         }
     }
 };

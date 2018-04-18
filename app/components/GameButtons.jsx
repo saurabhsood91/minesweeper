@@ -11,13 +11,19 @@ class GameButtons extends React.Component {
 
     handleRestart() {
         let {restartGame} = this.props;
-        restartGame();
+        restartGame(this.playerName.value);
+    }
+
+    renderNameControl() {
+        return (
+            <input placeholder="Enter Name:" type="text" ref={(playerName) => this.playerName = playerName} />
+        );
     }
 
     renderRestartGameButton() {
         return (
             <button className="btn btn-primary" onClick={this.handleRestart}>
-                Restart Game
+                Start Game
             </button>
         );
     }
@@ -25,6 +31,7 @@ class GameButtons extends React.Component {
     render() {
         return (
             <div>
+                {this.renderNameControl()}
                 {this.renderRestartGameButton()}
             </div>
         );
@@ -39,8 +46,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        restartGame: () => {
-            dispatch(restartGame());
+        restartGame: (playerName) => {
+            dispatch(restartGame(playerName));
         }
     }
 };

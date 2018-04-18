@@ -23,7 +23,7 @@ class GridControls extends React.Component {
                     <b>Rows: </b>
                 </Col>
                 <Col md={4}>
-                    <input type="number" min="8" defaultValue="8" ref={(rows) => this.rows = rows} />
+                    <input type="number" min="1" defaultValue="8" ref={(rows) => this.rows = rows} />
                 </Col>
             </Row>
         );
@@ -36,7 +36,7 @@ class GridControls extends React.Component {
                     <b>Columns: </b>
                 </Col>
                 <Col md={4}>
-                    <input type="number" min="8" defaultValue="8" ref={(cols) => this.cols = cols} />
+                    <input type="number" min="1" defaultValue="8" ref={(cols) => this.cols = cols} />
                 </Col>
             </Row>
         );
@@ -49,7 +49,7 @@ class GridControls extends React.Component {
                     <b>Mines: </b>
                 </Col>
                 <Col md={4}>
-                    <input type="number" min="10" defaultValue="10" ref={(mines) => this.mines = mines} />
+                    <input type="number" min="1" defaultValue="10" ref={(mines) => this.mines = mines} />
                 </Col>
 
             </Row>

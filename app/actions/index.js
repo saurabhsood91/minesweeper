@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const gridCreated = grid => {
     return {
         type: 'GRID_CREATED',
@@ -56,9 +58,10 @@ export const incrementTime = (seconds) => {
     }
 };
 
-export const restartGame = () => {
+export const restartGame = (playerName) => {
     return {
-        type: 'RESTART_GAME'
+        type: 'RESTART_GAME',
+        playerName
     }
 };
 
@@ -94,8 +97,22 @@ export const getTopScores = () => {
             }
         )
             .then((data) => {
-                console.log('FINAL DATA', data);
                 dispatch(loadScoresSuccess(data.scores));
             });
     };
+};
+
+export const submitScore = (rows, cols, mines, name, seconds) => {
+    return (dispatch) => {
+        return axios.post('http://localhost:4567/api/add/score', {
+            rows,
+            cols,
+            mines,
+            name,
+            seconds
+        }).then((response) => {
+        }).then((error) => {
+            console.log('ERROR', error);
+        });
+    }
 };
