@@ -292,7 +292,6 @@ const isGameLost = (grid) => {
 };
 
 const grid = (state = {}, action) => {
-    console.log('STATE, ACTION', state, action)
     switch (action.type) {
         case 'START_GAME':
             return {
