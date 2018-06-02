@@ -6,8 +6,7 @@ const scores = (state = {}, action) => {
             };
         default:
             return {
-                ...state,
-                scores: []
+                scores: state.scores || []
             };
     }
 };
