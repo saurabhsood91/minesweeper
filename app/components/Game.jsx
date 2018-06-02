@@ -16,10 +16,10 @@ class Game extends React.Component {
         startGame();
     }
     render() {
-        let {rows, cols, mines, playerName, seconds, isGameWon} = this.props.gameState;
+        let {rows, cols, totalMines, playerName, seconds, isGameWon} = this.props.gameState;
         let {submitScore, scores} = this.props;
         if(isGameWon) {
-            submitScore(rows, cols, mines, playerName, seconds);
+            submitScore(rows, cols, totalMines, playerName, seconds);
         }
         return (
             <Grid className="app">

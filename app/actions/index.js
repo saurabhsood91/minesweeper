@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BASE_URL } from '../utils/env';
 
 export const gridCreated = grid => {
     return {
@@ -91,7 +92,8 @@ export const loadScoresSuccess = (scores) => {
 
 export const getTopScores = () => {
     return (dispatch) => {
-        return fetch('http://localhost:4567/api/get/topten').then(
+        let url = BASE_URL + '/api/get/topten';
+        return fetch(url).then(
             (response) => {
                 return response.json();
             }
@@ -104,7 +106,8 @@ export const getTopScores = () => {
 
 export const submitScore = (rows, cols, mines, name, seconds) => {
     return (dispatch) => {
-        return axios.post('http://localhost:4567/api/add/score', {
+        let url = BASE_URL + '/api/add/score';
+        return axios.post(url, {
             rows,
             cols,
             mines,
