@@ -298,7 +298,7 @@ const grid = (state = {}, action) => {
                 ...state,
                 grid: createGrid(),
                 gameState: {
-                    ...state,
+                    // ...state,
                     ...gameState,
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
@@ -423,11 +423,6 @@ const grid = (state = {}, action) => {
                     ...state.gameState,
                     isGameOver: mineBurst
                 }
-            };
-        case 'LOAD_SCORES_SUCCESS':
-            return {
-                ...state,
-                scores: action.scores
             };
         default:
             return {
