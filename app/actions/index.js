@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { BASE_URL } from '../utils/env';
+
 export const gridCreated = grid => {
     return {
         type: 'GRID_CREATED',
@@ -56,9 +59,10 @@ export const incrementTime = (seconds) => {
     }
 };
 
-export const restartGame = () => {
+export const restartGame = (playerName) => {
     return {
-        type: 'RESTART_GAME'
+        type: 'RESTART_GAME',
+        playerName
     }
 };
 
@@ -76,5 +80,42 @@ export const burstReveal = (i, j) => {
         type: 'BURST_REVEAL',
         row: i,
         col: j
+    }
+};
+
+export const loadScoresSuccess = (scores) => {
+    return {
+        type: 'LOAD_SCORES_SUCCESS',
+        scores
+    };
+};
+
+export const getTopScores = () => {
+    return (dispatch) => {
+        let url = BASE_URL + '/api/get/topten';
+        return fetch(url).then(
+            (response) => {
+                return response.json();
+            }
+        )
+            .then((data) => {
+                dispatch(loadScoresSuccess(data.scores));
+            });
+    };
+};
+
+export const submitScore = (rows, cols, mines, name, seconds) => {
+    return (dispatch) => {
+        let url = BASE_URL + '/api/add/score';
+        return axios.post(url, {
+            rows,
+            cols,
+            mines,
+            name,
+            seconds
+        }).then((response) => {
+        }).then((error) => {
+            console.log('ERROR', error);
+        });
     }
 };
