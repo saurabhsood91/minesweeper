@@ -112,9 +112,10 @@ export const submitScore = (rows, cols, mines, name, seconds) => {
             rows,
             cols,
             mines,
-            userName,
-            seconds
+            seconds,
+            name: userName,
         }).then((response) => {
+            getTopScores();
         }).then((error) => {
             console.log('ERROR', error);
         });
