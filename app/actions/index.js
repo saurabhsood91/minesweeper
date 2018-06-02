@@ -107,11 +107,12 @@ export const getTopScores = () => {
 export const submitScore = (rows, cols, mines, name, seconds) => {
     return (dispatch) => {
         let url = BASE_URL + '/api/add/score';
+        let userName = name || 'Anonymous';
         return axios.post(url, {
             rows,
             cols,
             mines,
-            name,
+            userName,
             seconds
         }).then((response) => {
         }).then((error) => {
