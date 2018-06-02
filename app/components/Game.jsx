@@ -7,7 +7,7 @@ import {startGame, submitScore} from '../actions';
 import Controls from './Controls';
 import GridContainer from './Grid';
 import Header from './Header';
-import LeaderboardContainer from './Leaderboard';
+import Leaderboard from './Leaderboard';
 
 class Game extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class Game extends React.Component {
     }
     render() {
         let {rows, cols, mines, playerName, seconds, isGameWon} = this.props.gameState;
-        let {submitScore} = this.props;
+        let {submitScore, scores} = this.props;
         if(isGameWon) {
             submitScore(rows, cols, mines, playerName, seconds);
         }
@@ -27,7 +27,7 @@ class Game extends React.Component {
                 <GridContainer />
                 <br /><br />
                 <Controls />
-                <LeaderboardContainer/>
+                <Leaderboard scores={scores} />
             </Grid>
         );
     }
@@ -45,7 +45,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 const mapStateToProps = (state) => {
     return {
-        gameState: state.grid.gameState
+        gameState: state.grid.gameState,
+        scores: state.grid.scores
     };
 };
 

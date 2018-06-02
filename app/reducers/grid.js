@@ -292,11 +292,14 @@ const isGameLost = (grid) => {
 };
 
 const grid = (state = {}, action) => {
+    console.log('STATE, ACTION', state, action)
     switch (action.type) {
         case 'START_GAME':
             return {
+                ...state,
                 grid: createGrid(),
                 gameState: {
+                    ...state,
                     ...gameState,
                     seconds: 0,
                     minesCorrectlyFlagged: 0,
@@ -319,12 +322,14 @@ const grid = (state = {}, action) => {
                 gameStarted: true
             };
             return {
+                ...state,
                 grid: gridAfterRevealing,
                 gameState: gameStateAfterReveal
             };
         case 'GAME_OVER':
             let grid = revealAllMines(state.grid);
             return {
+                ...state,
                 grid,
                 gameState: {
                     ...state.gameState,
@@ -342,16 +347,19 @@ const grid = (state = {}, action) => {
                 minesCorrectlyFlagged: correctlyFlaggedMines
             };
             return {
+                ...state,
                 gameState,
                 grid: flaggedGrid
             };
         case 'QUESTIONMARK_SQUARE':
             let newGrid = questionMarkSquare(state.grid, action.row, action. column);
             let newGameState = {
+                ...state,
                 ...state.gameState,
                 minesCorrectlyFlagged: getMinesCorrectlyFlagged(newGrid)
             };
             return {
+                ...state,
                 grid: newGrid,
                 gameState: newGameState
             };
@@ -371,6 +379,7 @@ const grid = (state = {}, action) => {
         case 'RESTART_GAME':
             let {rows, cols, mines} = state.gameState;
             return {
+                ...state,
                 grid: createGrid(rows, cols, mines),
                 gameState: {
                     ...state.gameState,
@@ -385,6 +394,7 @@ const grid = (state = {}, action) => {
         case 'REINITIALIZE_GRID':
             let numberOfMines = Math.min((action.rows * action.cols), action.mines);
             return {
+                ...state,
                 grid: createGrid(action.rows, action.cols, action.mines),
                 gameState: {
                     ...state.gameState,
@@ -408,30 +418,24 @@ const grid = (state = {}, action) => {
                 finalGridToBeShown = burstRevealGrid;
             }
             return {
+                ...state,
                 grid: finalGridToBeShown,
                 gameState: {
                     ...state.gameState,
                     isGameOver: mineBurst
                 }
             };
+        case 'LOAD_SCORES_SUCCESS':
+            return {
+                ...state,
+                scores: action.scores
+            };
         default:
             return {
+                scores: [],
                 grid: [],
-                gameState: {}
+                gameState: {},
             };
-            // return {
-            //     grid: createGrid(),
-            //     gameState: {
-            //         seconds: 0,
-            //         minesCorrectlyFlagged: 0,
-            //         isGameOver: false,
-            //         gameStarted: false,
-            //         isGameWon: false,
-            //         totalMines: constants.MAX_MINES,
-            //         rows: constants.GRID_ROWS,
-            //         cols: constants.GRID_COLS
-            //     }
-            // };
     }
     return state;
 }

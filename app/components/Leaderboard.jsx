@@ -1,10 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import Score from './Score';
 
 class Leaderboard extends React.Component {
     render() {
-        let {scores} = this.props.scores;
+        let {scores} = this.props;
 
         let scoreList = scores.map((score) => {
             return (
@@ -33,19 +32,4 @@ class Leaderboard extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        scores: state.scores
-    }
-};
-
-const mapDispatchToProps =(dispatch) => {
-    return {};
-};
-
-const LeaderboardContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Leaderboard);
-
-export default LeaderboardContainer;
+export default Leaderboard;
