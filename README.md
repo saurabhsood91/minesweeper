@@ -16,5 +16,8 @@ An implementation of Minesweeper in React+Redux. Learning attempt for Redux, and
 - redux (react bindings)
 - webpack
 - react-bootstrap
+- redux-thunk (For the leaderboard)
+
+**Leaderboard Repo:** [Leaderboard](https://github.com/saurabhsood91/minesweeper-backend)
 
 **Try it out**: [Demo](http://powerful-harbor-74364.herokuapp.com/)
