@@ -90,6 +90,12 @@ export const loadScoresSuccess = (scores) => {
     };
 };
 
+export const scoreSubmitted = () => {
+    return {
+        type: 'SCORE_SUBMITTED'
+    }
+};
+
 export const getTopScores = () => {
     return (dispatch) => {
         let url = BASE_URL + '/api/get/topten';
@@ -115,7 +121,8 @@ export const submitScore = (rows, cols, mines, name, seconds) => {
             seconds,
             name: userName,
         }).then((response) => {
-            getTopScores();
+            dispatch(scoreSubmitted());
+            dispatch(getTopScores());
         }).then((error) => {
             console.log('ERROR', error);
         });

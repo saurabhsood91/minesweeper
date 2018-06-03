@@ -14,9 +14,9 @@ class Game extends React.Component {
         super(props);
     }
     render() {
-        let {rows, cols, totalMines, playerName, seconds, isGameWon} = this.props.gameState;
+        let {rows, cols, totalMines, playerName, seconds, isGameWon, scoreSubmitted} = this.props.gameState;
         let {submitScore, scores} = this.props;
-        if(isGameWon) {
+        if(isGameWon && !scoreSubmitted) {
             submitScore(rows, cols, totalMines, playerName, seconds);
         }
         return (

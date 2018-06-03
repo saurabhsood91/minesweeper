@@ -307,7 +307,8 @@ const grid = (state = {}, action) => {
                     isGameWon: false,
                     totalMines: constants.MAX_MINES,
                     rows: constants.GRID_ROWS,
-                    cols: constants.GRID_COLS
+                    cols: constants.GRID_COLS,
+                    scoreSubmitted: false
                 }
             };
         case 'REVEAL_SQUARES':
@@ -383,6 +384,7 @@ const grid = (state = {}, action) => {
                 gameState: {
                     ...state.gameState,
                     seconds: 0,
+                    scoreSubmitted: false,
                     minesCorrectlyFlagged: 0,
                     isGameOver: false,
                     gameStarted: false,
@@ -402,6 +404,7 @@ const grid = (state = {}, action) => {
                     isGameOver: false,
                     gameStarted: false,
                     isGameWon: false,
+                    scoreSubmitted: false,
                     totalMines: numberOfMines,
                     rows: action.rows,
                     cols: action.cols
@@ -424,6 +427,16 @@ const grid = (state = {}, action) => {
                     isGameOver: mineBurst
                 }
             };
+        case 'SCORE_SUBMITTED':
+            return {
+                ...state,
+                gameState: {
+                    ...state.gameState,
+                    scoreSubmitted: true
+                }
+            };
+        case 'LOAD_SCORES_SUCCESS':
+            return state;
         default:
             return {
                 scores: [],
